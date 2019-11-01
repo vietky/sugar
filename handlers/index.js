@@ -1,4 +1,4 @@
-const get = require('./get.js');
+const get = require('./get_file.js');
 const upload = require('./upload.js');
 
 module.exports = {

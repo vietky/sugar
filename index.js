@@ -22,8 +22,12 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname + '/assets/home.html'));
+    res.sendFile(path.join(__dirname + '/assets/home.html'));
 })
+
+app.get('/test', (req, res) => {
+    res.sendFile(path.join(__dirname + '/assets/test.html'));
+});
 
 app.post('/assets/', upload);
 
