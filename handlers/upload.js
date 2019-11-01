@@ -29,11 +29,10 @@ async function upload(req, res, next) {
 
     blobStream.on('finish', () => {
       blob.makePublic().then(() => {
-        // The public URL can be used to directly access the file via HTTP.
-        const publicUrl = `${config.base_url}/${bucket.name}/${fileType}/${id}`
         return resolve({
-          fileType,
-          publicUrl
+          file_type: fileType,
+          // The public URL can be used to directly access the file via HTTP.
+          url: `${config.base_url}/${bucket.name}/${fileType}/${id}`
         });
       });
     });

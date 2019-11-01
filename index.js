@@ -9,6 +9,7 @@ const config = require('./configs/config.js');
 const {
     getImage,
     getMedia,
+    getAds,
     upload,
 } = require('./handlers');
 
@@ -56,6 +57,18 @@ app.get('/', (req, res) => {
 
 app.get('/test', (req, res) => {
     res.sendFile(path.join(__dirname + '/assets/test.html'));
+});
+
+app.get('/ads/get-all', (req, res) => {
+    try {
+        const result = getAds(req, res);
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(400).json({
+            message: err.message,
+            stack: err.stack,
+        });
+    }
 });
 
 app.post('/assets/', multer.single('file'), async (req, res, next) => {
