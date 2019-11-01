@@ -16,26 +16,25 @@ async function upload(req, res, next) {
     const id = uuidv1();
     const blob = bucket.file(`${fileType}/${id}`);
 
-    var options = {
-      entity: 'allUsers',
-      role: storage.acl.READER_ROLE
-    };
-
-    blob.acl.add(options, function (err, aclObject) { });
-
-    const blobStream = blob.createWriteStream();
+    const blobStream = blob.createWriteStream({
+      metadata: {
+        contentType: req.file.mimetype
+      },
+      resumable: false
+    });
 
     blobStream.on('error', err => {
       return reject(err);
     });
 
     blobStream.on('finish', () => {
-      // The public URL can be used to directly access the file via HTTP.
-      const publicUrl = `${config.base_url}/${bucket.name}/${fileType}/${id}`
-      console.log('publicURl', publicUrl);
-      return resolve({
-        fileType,
-        publicUrl
+      blob.makePublic().then(() => {
+        // The public URL can be used to directly access the file via HTTP.
+        const publicUrl = `${config.base_url}/${bucket.name}/${fileType}/${id}`
+        return resolve({
+          fileType,
+          publicUrl
+        });
       });
     });
 

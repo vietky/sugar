@@ -1,7 +1,9 @@
-const get = require('./get_file.js');
+const getImage = require('./get_image.js');
+const getMedia = require('./get_media.js');
 const upload = require('./upload.js');
 
 module.exports = {
-  get,
+  getImage,
+  getMedia,
   upload,
 }

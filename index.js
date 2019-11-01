@@ -7,8 +7,9 @@ const Multer = require('multer');
 const config = require('./configs/config.js');
 
 const {
+    getImage,
+    getMedia,
     upload,
-    get,
 } = require('./handlers');
 
 // Multer is required to process file uploads and make them available via
@@ -76,7 +77,8 @@ app.post('/assets/', multer.single('file'), async (req, res, next) => {
     }
 });
 
-app.get('/assets/:filePath', get)
+app.get('/assets/audio/:filePath', getMedia);
+app.get('/assets/images/:filePath', getImage);
 
 app.listen(port, () => {
     console.log(`Sugar is listening on port ${port}!`)
