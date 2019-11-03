@@ -3,3 +3,4 @@ env: standard
 
 env_variables:
   GCLOUD_STORAGE_BUCKET: sugar-maroon
+  NODE_ENV: production

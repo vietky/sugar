@@ -9,7 +9,8 @@ const config = require('./configs/config.js');
 const {
     getImage,
     getMedia,
-    getAds,
+    getAllAds,
+    createAds,
     upload,
 } = require('./handlers');
 
@@ -22,11 +23,16 @@ const multer = Multer({
     },
 });
 
+process.on('unhandledRejection', (reason, promise) => {
+    console.log('Unhandled Rejection at:', reason.stack || reason)
+    // Recommended: send the information to sentry.io
+    // or whatever crash reporting service you use
+})
 
 app.use((err, req, res, next) => {
     if (err) {
         console.log('err ne', err);
-        res.json({
+        res.status(400).json({
             err
         })
         return;
@@ -51,18 +57,24 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname + '/assets/home.html'));
-})
-
-app.get('/test', (req, res) => {
-    res.sendFile(path.join(__dirname + '/assets/test.html'));
+app.get('/ads/get-all', async (req, res) => {
+    try {
+        const result = await getAllAds(req, res);
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(400).json({
+            message: err.message,
+            stack: err.stack,
+        });
+    }
 });
 
-app.get('/ads/get-all', (req, res) => {
+app.post('/ads', async (req, res) => {
     try {
-        const result = getAds(req, res);
-        res.status(200).json(result);
+        await createAds(req, res);
+        res.status(200).json({
+            message: 'ok'
+        });
     } catch (err) {
         res.status(400).json({
             message: err.message,
@@ -92,6 +104,11 @@ app.post('/assets/', multer.single('file'), async (req, res, next) => {
 
 app.get('/assets/audio/:filePath', getMedia);
 app.get('/assets/images/:filePath', getImage);
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/assets/index.html'));
+})
+
 
 app.listen(port, () => {
     console.log(`Sugar is listening on port ${port}!`)
