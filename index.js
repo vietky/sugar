@@ -58,7 +58,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/ads/get-all', async (req, res) => {
+app.get('/api/ads/get-all', async (req, res) => {
     try {
         const result = await getAllAds(req, res);
         res.status(200).json(result);
@@ -71,7 +71,7 @@ app.get('/ads/get-all', async (req, res) => {
 });
 
 
-app.get('/ads/:id', async (req, res) => {
+app.get('/api/ads/:id', async (req, res) => {
     try {
         const result = await getAdsById(req, res);
         res.status(200).json(result);
@@ -83,7 +83,7 @@ app.get('/ads/:id', async (req, res) => {
     }
 });
 
-app.post('/ads', async (req, res) => {
+app.post('/api/ads', async (req, res) => {
     try {
         await createAds(req, res);
         res.status(200).json({
@@ -98,7 +98,7 @@ app.post('/ads', async (req, res) => {
 });
 
 
-app.post('/assets/', multer.single('file'), async (req, res, next) => {
+app.post('/api/assets/', multer.single('file'), async (req, res, next) => {
     if (!req.file) {
         res.status(400).json({
             message: 'No file uploaded.'
@@ -117,13 +117,12 @@ app.post('/assets/', multer.single('file'), async (req, res, next) => {
     }
 });
 
-app.get('/assets/audio/:filePath', getMedia);
-app.get('/assets/images/:filePath', getImage);
+app.get('/api/assets/audio/:filePath', getMedia);
+app.get('/api/assets/images/:filePath', getImage);
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/assets/index.html'));
+    res.sendFile(path.join(__dirname + '/assets/index.html')).end();
 })
-
 
 app.listen(port, () => {
     console.log(`Sugar is listening on port ${port}!`)

@@ -3,6 +3,7 @@
 ### DEV
 - ```npm i```
 - ```export GOOGLE_APPLICATION_CREDENTIALS="<ur_path>/storage_admin_sa.json"```
+- ```./cloud_sql_proxy -instances=dev-racer-252811:asia-southeast1:sugardb=tcp:5432 -credential_file=$GOOGLE_APPLICATION_CREDENTIALS```
 - ```npm run dev```
 
 ### DEPLOY
