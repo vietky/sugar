@@ -1,4 +1,4 @@
-const { getAllAds, createAds } = require('./crud_ads.js');
+const { getAllAds, createAds, getAdsById } = require('./crud_ads.js');
 const getImage = require('./get_image.js');
 const getMedia = require('./get_media.js');
 const upload = require('./upload.js');
@@ -8,5 +8,6 @@ module.exports = {
   getMedia,
   getAllAds,
   createAds,
+  getAdsById,
   upload,
 }

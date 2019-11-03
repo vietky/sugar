@@ -10,6 +10,7 @@ const {
     getImage,
     getMedia,
     getAllAds,
+    getAdsById,
     createAds,
     upload,
 } = require('./handlers');
@@ -69,6 +70,19 @@ app.get('/ads/get-all', async (req, res) => {
     }
 });
 
+
+app.get('/ads/:id', async (req, res) => {
+    try {
+        const result = await getAdsById(req, res);
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(400).json({
+            message: err.message,
+            stack: err.stack,
+        });
+    }
+});
+
 app.post('/ads', async (req, res) => {
     try {
         await createAds(req, res);
@@ -82,6 +96,7 @@ app.post('/ads', async (req, res) => {
         });
     }
 });
+
 
 app.post('/assets/', multer.single('file'), async (req, res, next) => {
     if (!req.file) {

@@ -53,7 +53,22 @@ async function getAll(req) {
   });
 }
 
+async function getAds(req) {
+  if (!req.params.id) {
+    throw new Error(`id ${req.params.id} is not specified`);
+  }
+  return await usePool(async (client) => {
+    const result = await client.query('SELECT * FROM ads WHERE id = $1', [req.params.id])
+    if (result.rows.length < 1) {
+      throw new Error(`id ${req.params.id} is not found`);
+    }
+    return result.rows[0];
+  });
+}
+
+
 module.exports = {
   getAllAds: getAll,
   createAds: insert,
+  getAdsById: getAds,
 };
