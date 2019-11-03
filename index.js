@@ -120,8 +120,12 @@ app.post('/api/assets/', multer.single('file'), async (req, res, next) => {
 app.get('/api/assets/audio/:filePath', getMedia);
 app.get('/api/assets/images/:filePath', getImage);
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname + '/assets/index.html'));
+})
+
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/assets/index.html')).end();
+    res.sendFile(path.join(__dirname + '/assets/index.html'));
 })
 
 app.listen(port, () => {

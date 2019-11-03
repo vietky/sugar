@@ -22,7 +22,6 @@ async function usePool(cb) {
 async function insert(req) {
   return await usePool(async (client) => {
     const ads = req.body;
-
     const result = await client.query(`
         INSERT INTO ads(
           title,
@@ -65,7 +64,6 @@ async function getAds(req) {
     return result.rows[0];
   });
 }
-
 
 module.exports = {
   getAllAds: getAll,
