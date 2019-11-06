@@ -14,6 +14,7 @@ const {
     createAds,
     upload,
     searchAds,
+    speechToText,
 } = require('./handlers');
 
 // Multer is required to process file uploads and make them available via
@@ -71,7 +72,6 @@ app.get('/api/ads/get-all', async (req, res) => {
 
 app.get('/api/ads/search', async (req, res) => {
     try {
-        console.log('vo day ne');
         const result = await searchAds(req, res);
         res.status(200).json(result);
     } catch (err) {
@@ -82,6 +82,19 @@ app.get('/api/ads/search', async (req, res) => {
     }
 });
 
+
+app.post('/api/voices', async (req, res) => {
+    try {
+        const result = await speechToText(req, res);
+        console.log('result ne', result);
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(400).json({
+            message: err.message,
+            stack: err.stack,
+        });
+    }
+});
 
 app.get('/api/ads/:id', async (req, res) => {
     try {

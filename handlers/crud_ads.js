@@ -73,7 +73,8 @@ async function searchAds(req) {
     const result = await client.query(`
       SELECT *
       FROM ads
-      WHERE language = $1`,
+      WHERE language = $1
+      ORDER BY id desc`,
       [req.query.lang])
     return result.rows;
   });

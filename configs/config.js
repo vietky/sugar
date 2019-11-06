@@ -17,7 +17,8 @@ if (
 
 
 module.exports = {
-  bucket: process.env.GCLOUD_STORAGE_BUCKET || 'sugar-maroon',
+  bucket: process.env.GCLOUD_STORAGE_BUCKET || 'sugar-hackathon',
+  gspeech_to_text_key: process.env.GSPEECH_TO_TEXT_KEY || `AIzaSyAX689LXrd8RUoRPlth30uc1v3mDS9lzq4`,
   base_url: 'https://storage.googleapis.com',
   max_file_size: 50 * 1024 * 1024, // mb,
   pg_connection: pgConnection
