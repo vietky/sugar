@@ -1,7 +1,7 @@
 
 
 const pgConnection = {
-  host: process.env.HOST || 'localhost',
+  host: process.env.HOST || '127.0.0.1',
   user: process.env.SQL_USER || 'postgres',
   password: process.env.SQL_PASSWORD || '',
   database: process.env.SQL_DATABASE || 'sugar',

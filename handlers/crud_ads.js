@@ -30,16 +30,18 @@ async function insert(req) {
           price,
           images,
           category,
+          language,
           created_date,
           modified_date)
-        VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW())
+        VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW())
       `, [
         ads.title,
         ads.description,
         ads.voice_description,
         ads.price,
         ads.images,
-        5010
+        5010,
+        "vi",
       ]);
     return result.rows;
   });
@@ -65,8 +67,22 @@ async function getAds(req) {
   });
 }
 
+async function searchAds(req) {
+  return await usePool(async (client) => {
+    console.log('req.params', req.query.lang);
+    const result = await client.query(`
+      SELECT *
+      FROM ads
+      WHERE language = $1`,
+      [req.query.lang])
+    return result.rows;
+  });
+}
+
+
 module.exports = {
   getAllAds: getAll,
   createAds: insert,
   getAdsById: getAds,
+  searchAds,
 };

@@ -13,3 +13,9 @@ CREATE TABLE ads (
   created_date TIMESTAMP NOT NULL,
   modified_date TIMESTAMP NOT NULL
 );
+
+
+alter table ads add column language varchar(10);
+
+create index idx_ads_language on ads(language);
+

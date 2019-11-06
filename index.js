@@ -13,6 +13,7 @@ const {
     getAdsById,
     createAds,
     upload,
+    searchAds,
 } = require('./handlers');
 
 // Multer is required to process file uploads and make them available via
@@ -30,16 +31,14 @@ process.on('unhandledRejection', (reason, promise) => {
     // or whatever crash reporting service you use
 })
 
-app.use((err, req, res, next) => {
-    if (err) {
-        console.log('err ne', err);
-        res.status(400).json({
-            err
-        })
-        return;
-    }
-    next();
+process.on('uncaughtException', function (err) {
+    console.log(err);
 });
+
+app.use(function (err, req, res, next) {
+    console.error('err ne', err.stack);
+    res.status(500).json(err);
+})
 
 app.use(bodyParser.json({
     limit: '50mb'
@@ -61,6 +60,19 @@ app.use(function (req, res, next) {
 app.get('/api/ads/get-all', async (req, res) => {
     try {
         const result = await getAllAds(req, res);
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(400).json({
+            message: err.message,
+            stack: err.stack,
+        });
+    }
+});
+
+app.get('/api/ads/search', async (req, res) => {
+    try {
+        console.log('vo day ne');
+        const result = await searchAds(req, res);
         res.status(200).json(result);
     } catch (err) {
         res.status(400).json({
@@ -120,13 +132,13 @@ app.post('/api/assets/', multer.single('file'), async (req, res, next) => {
 app.get('/api/assets/audio/:filePath', getMedia);
 app.get('/api/assets/images/:filePath', getImage);
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname + '/assets/index.html'));
-})
+// app.get('/', (req, res) => {
+//     res.sendFile(path.join(__dirname + '/assets/index.html'));
+// })
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/assets/index.html'));
-})
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname + '/assets/index.html'));
+// })
 
 app.listen(port, () => {
     console.log(`Sugar is listening on port ${port}!`)
