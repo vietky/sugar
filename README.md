@@ -8,6 +8,7 @@
 
 ### DEPLOY
 - ```gcloud app deploy```
+- 35.240.151.186
 
 ### TO-DO
 ```

@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "deploy": "cp -rf ../frontend/build/ ./assets/ && gcloud app deploy app.yaml --quiet",
+    "deploy": "rm -rf ./assets/ && cp -rf ../frontend/build/ ./assets/ && docker build -t asia.gcr.io/sugar-258010/sugar . && docker push asia.gcr.io/sugar-258010/sugar ",
+    "deploy2": "cp -rf ../frontend/build/ ./assets/ && gcloud app deploy app.yaml --quiet",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

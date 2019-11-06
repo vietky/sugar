@@ -1,4 +1,4 @@
-CREATE DATABASE sugar;
+-- CREATE DATABASE sugar;
 
 USE DATABASE sugar;
 
